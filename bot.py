@@ -1,7 +1,6 @@
 import json
 import random
 import emoji
-import datetime
 from difflib import get_close_matches
 from flask import Flask, request
 import requests
@@ -144,12 +143,12 @@ def bot():
         msg.media('https://cataas.com/cat')
         responded = True
     if "current time" in incoming_msg or "What day" in incoming_msg or "date" in incoming_msg or "time" in incoming_msg:
-            url="https://api.ipgeolocation.io/timezone?apiKey=d5a55a31e39d4c0287c146f038d8440e&lat=18.59530683036207&long=73.72870325730564"
-            response = requests.request("GET", url)
-            current_time=response.json()
-            time_24=current_time["time_24"]
-            date_t=current_time["date_time_txt"]
-            t=time_24.split(":")[0]
+        url="https://api.ipgeolocation.io/timezone?apiKey=d5a55a31e39d4c0287c146f038d8440e&lat=18.59530683036207&long=73.72870325730564"
+        response = requests.request("GET", url)
+        current_time=response.json()
+        time_24=current_time["time_24"]
+        t=time_24.split(":")[0]
+        date_t=current_time["date_time_txt"]
         if(t>='12' and t<='16'):
             em_w=emoji.emojize("\N{grimacing face}")
             txt="Good AfterNoon,Time for the work!!{}".format(em_w)
