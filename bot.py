@@ -6,22 +6,17 @@ from difflib import get_close_matches
 from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 
-quote=json.load(open("quotes.json")) #First loading the jason file into "quote"
-data=json.load(open("data.json")) #First loading the jason file into "data"
-
-cnv= ['Bye', 'See you later', 'Sayonara', "I'm also leaving", 'Goodbye', 'Farewell']
-hl=['greetings', 'hello', 'hi', 'howdy', 'I am here', 'I have arrived','Okaeri']
-
-
 app = Flask(__name__)
-
 @app.route("/", methods=['POST'])
 def hello():
     return "Hello World!"
 
 @app.route('/bot', methods=['POST'])
 def bot():
-
+    quote=json.load(open("quotes.json")) #First loading the jason file into "quote"
+    data=json.load(open("data.json")) #First loading the jason file into "data"
+    cnv= ['Bye', 'See you later', 'Sayonara', "I'm also leaving", 'Goodbye', 'Farewell']
+    hl=['greetings', 'hello', 'hi', 'howdy', 'I am here', 'I have arrived','Okaeri']
     incoming_msg = request.values.get('Body', '').lower()
     resp = MessagingResponse()
     msg = resp.message()
