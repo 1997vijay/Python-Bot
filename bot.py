@@ -155,7 +155,7 @@ def bot():
             msg.body(date_t+"\n"+txt)
             responded = True
         if(t>='16' and t<='21'):
-            em_w=emoji.emojize("\N{beaming face with smiling eyes}")
+            em_w=emoji.emojize("\N{video game}")
             txt="It's time for fun!!{}".format(em_w)
             msg.body(date_t+"\n"+txt)
             responded = True
