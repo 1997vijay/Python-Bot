@@ -22,7 +22,6 @@ def bot():
     incoming_msg = request.values.get('Body', '').lower()
     resp = MessagingResponse()
     msg = resp.message()
-    msg.body("Type 'help me' to start!!")
     responded = False
     if "hi" in incoming_msg or "hello" in incoming_msg or "hey" in incoming_msg or "hola" in incoming_msg:
         txt=random.choice(hl)
