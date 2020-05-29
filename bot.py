@@ -38,7 +38,7 @@ def bot():
         txt="My creator is 'Vijay Kumar' {}".format(em)
         msg.body(txt)
         responded = True
-    if 'Quote' in incoming_msg or 'quotes':
+    if 'Quote' in incoming_msg or 'quotes' in incoming_msg:
         qu=random.choice(quote)
         x = qu.get("quoteText")
         author=qu["quoteAuthor"]
