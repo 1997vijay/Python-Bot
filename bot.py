@@ -10,7 +10,6 @@ from twilio.twiml.messaging_response import MessagingResponse
 
 quote=json.load(open("quotes.json")) #First loading the jason file into "quote"
 data=json.load(open("data.json")) #First loading the jason file into "data"
-shyari=json.load(open("sh.json",encoding="utf8")) #First loading the jason file into "shyari"
 
 cnv= ['Bye', 'See you later', 'Sayonara', "I'm also leaving", 'Goodbye', 'Farewell']
 hl=['greetings', 'hello', 'hi', 'howdy', 'I am here', 'I have arrived','Okaeri']
@@ -54,111 +53,106 @@ def bot():
         author=qu["quoteAuthor"]
         rq=x+"By-'{}'".format(author)
         msg.body(rq)
-        responded = True
-    if 'shyari' in incoming_msg or 'shayari' in incoming_msg:
-        qu=random.choice(shyari)
-        x = qu.get("english")
-        msg.body(x)
         responded = True  
 
-    if 'meaning' in incoming_msg or 'mean' in incoming_msg:
-        word=incoming_msg.split("meaning of")[1]
-        def translate(w):        
-            if w in data:
-                msg.body(w+"\n")
-                return data[w]
-            elif w.title() in data: # to handle the word related to capital or country
-                msg.body(w.title()+"\n")
-                return data[w.title()]
-            elif w.upper() in data: #in case user enters words like USA or NATO
-                msg.body(w.upper()+"\n")
-                return data[w.upper()]
-            elif len(get_close_matches(w,data.keys()))>0:
-                sm_word=get_close_matches(w,data.keys())[0]
-                msg.body(sm_word.title()+":\n")
-                return data[get_close_matches(w,data.keys())[0]]
-            else:
-                msg.body("No such word exits.Please double check it!!")
+    # if 'meaning' in incoming_msg or 'mean' in incoming_msg:
+    #     word=incoming_msg.split("meaning of")[1]
+    #     def translate(w):        
+    #         if w in data:
+    #             msg.body(w+"\n")
+    #             return data[w]
+    #         elif w.title() in data: # to handle the word related to capital or country
+    #             msg.body(w.title()+"\n")
+    #             return data[w.title()]
+    #         elif w.upper() in data: #in case user enters words like USA or NATO
+    #             msg.body(w.upper()+"\n")
+    #             return data[w.upper()]
+    #         elif len(get_close_matches(w,data.keys()))>0:
+    #             sm_word=get_close_matches(w,data.keys())[0]
+    #             msg.body(sm_word.title()+":\n")
+    #             return data[get_close_matches(w,data.keys())[0]]
+    #         else:
+    #             msg.body("No such word exits.Please double check it!!")
 
-        output=translate(word.lower()) #calling function because data set contain all the word in lower case
-        if(type(output)==list):
-            for items in output:
-                rq=items
-                msg.body("\n"+rq)
-                responded = True
-        else:
-            rq=output
-            msg.body("\n"+rq)
-            responded = True
+    #     output=translate(word.lower()) #calling function because data set contain all the word in lower case
+    #     if(type(output)==list):
+    #         for items in output:
+    #             rq=items
+    #             msg.body("\n"+rq)
+    #             responded = True
+    #     else:
+    #         rq=output
+    #         msg.body("\n"+rq)
+    #         responded = True
         
-    if 'nasa' in incoming_msg:
-        url="https://api.nasa.gov/planetary/apod?api_key=sbESYWcBiR1n0tggKJfi2nsewtZpcxkQe33NhZjk"
-        response = requests.request("GET", url)
-        nasa=response.json()
-        explanation=nasa.get('explanation')
-        img_url=nasa.get('url')
-        msg.media(img_url)
-        msg.body(explanation)
-        responded = True
+    # if 'nasa' in incoming_msg:
+    #     url="https://api.nasa.gov/planetary/apod?api_key=sbESYWcBiR1n0tggKJfi2nsewtZpcxkQe33NhZjk"
+    #     response = requests.request("GET", url)
+    #     nasa=response.json()
+    #     explanation=nasa.get('explanation')
+    #     img_url=nasa.get('url')
+    #     msg.media(img_url)
+    #     msg.body(explanation)
+    #     responded = True
 
-    if 'photo' in incoming_msg:
-        word=incoming_msg.split("photo")[0]
-        url="https://source.unsplash.com/1600x900/?{}".format(word)
-        print(url)
-        msg.media(url)
-        responded = True
+    # if 'photo' in incoming_msg:
+    #     word=incoming_msg.split("photo")[0]
+    #     url="https://source.unsplash.com/1600x900/?{}".format(word)
+    #     print(url)
+    #     msg.media(url)
+    #     responded = True
 
-    if 'covid details' in incoming_msg or 'Covid of' in incoming_msg:
-        word=incoming_msg.split("covid details of ")[1]
-        def covid(country):
-            cn=emoji.emojize("\N{face with medical mask}")
-            dt=emoji.emojize("\N{skull and crossbones}")
-            rc=emoji.emojize("\N{military medal}")
-            url = "https://covid-19-coronavirus-statistics.p.rapidapi.com/v1/total"
-            querystring = {"country":"{}".format(country)}
-            headers = {
-                'x-rapidapi-key': "0a1a5d8af0msh8ce40a5e61cc781p12ba3bjsnc58b718fa50f"
-            }
-            response = requests.request("GET", url, headers=headers,params=querystring)
-            if response.status_code == 200:
-                covid_data=response.json()
-                recover=covid_data['data'].get('recovered')
-                death=covid_data['data'].get('deaths')
-                confirm=covid_data['data'].get('confirmed')
-                msg.body(country.title()+"\n"+"\n{}Recovered:{}\n{}Deaths:{}\n{}Confirmed:{}".format(rc,recover,dt,death,cn,confirm))
-            elif(response.status_code==201):
-                msg.body("Sorry!,I couldn't understand.")
-            else:
-                text="I could not retrieve the results at this time, sorry."
-                msg.body(text)
-        covid(word.title())
-        responded = True  
+    # if 'covid details' in incoming_msg or 'Covid of' in incoming_msg:
+    #     word=incoming_msg.split("covid details of ")[1]
+    #     def covid(country):
+    #         cn=emoji.emojize("\N{face with medical mask}")
+    #         dt=emoji.emojize("\N{skull and crossbones}")
+    #         rc=emoji.emojize("\N{military medal}")
+    #         url = "https://covid-19-coronavirus-statistics.p.rapidapi.com/v1/total"
+    #         querystring = {"country":"{}".format(country)}
+    #         headers = {
+    #             'x-rapidapi-key': "0a1a5d8af0msh8ce40a5e61cc781p12ba3bjsnc58b718fa50f"
+    #         }
+    #         response = requests.request("GET", url, headers=headers,params=querystring)
+    #         if response.status_code == 200:
+    #             covid_data=response.json()
+    #             recover=covid_data['data'].get('recovered')
+    #             death=covid_data['data'].get('deaths')
+    #             confirm=covid_data['data'].get('confirmed')
+    #             msg.body(country.title()+"\n"+"\n{}Recovered:{}\n{}Deaths:{}\n{}Confirmed:{}".format(rc,recover,dt,death,cn,confirm))
+    #         elif(response.status_code==201):
+    #             msg.body("Sorry!,I couldn't understand.")
+    #         else:
+    #             text="I could not retrieve the results at this time, sorry."
+    #             msg.body(text)
+    #     covid(word.title())
+    #     responded = True  
 
-    if 'weather' in incoming_msg or 'weather of' in incoming_msg:
-        word=incoming_msg.split("weather of ")[1]
-        def weather(city):
-            url = "https://community-open-weather-map.p.rapidapi.com/weather"
-            querystring = {"q":"{}".format(city)}
-            headers = {
-                'x-rapidapi-host': "community-open-weather-map.p.rapidapi.com",
-                'x-rapidapi-key': "0a1a5d8af0msh8ce40a5e61cc781p12ba3bjsnc58b718fa50f"
-            }
-            response = requests.request("GET", url,headers=headers, params=querystring)
-            if response.status_code == 200:
-                weather_data=response.json()
-                city_name=city.split(",")[0]
-                temp_max=round(weather_data['main'].get('temp_max'))/10
-                feels_like=round(weather_data['main'].get('feels_like'))/10
-                humidity=weather_data['main'].get('humidity')
-                wind=weather_data['wind'].get('speed')
-                msg.body("City:{}\nMaximum Temprature:{}\nFeels Like:{}\nHumidity:{}\nWind Speed:{}".format(city_name,temp_max,feels_like,humidity,wind))
-            elif(response.status_code==201):
-                msg.body("Sorry!,I couldn't understand.")
-            else:
-                text="I could not retrieve the results at this time, sorry."
-                msg.body(text)
-        weather(word.title())
-        responded = True
+    # if 'weather' in incoming_msg or 'weather of' in incoming_msg:
+    #     word=incoming_msg.split("weather of ")[1]
+    #     def weather(city):
+    #         url = "https://community-open-weather-map.p.rapidapi.com/weather"
+    #         querystring = {"q":"{}".format(city)}
+    #         headers = {
+    #             'x-rapidapi-host': "community-open-weather-map.p.rapidapi.com",
+    #             'x-rapidapi-key': "0a1a5d8af0msh8ce40a5e61cc781p12ba3bjsnc58b718fa50f"
+    #         }
+    #         response = requests.request("GET", url,headers=headers, params=querystring)
+    #         if response.status_code == 200:
+    #             weather_data=response.json()
+    #             city_name=city.split(",")[0]
+    #             temp_max=round(weather_data['main'].get('temp_max'))/10
+    #             feels_like=round(weather_data['main'].get('feels_like'))/10
+    #             humidity=weather_data['main'].get('humidity')
+    #             wind=weather_data['wind'].get('speed')
+    #             msg.body("City:{}\nMaximum Temprature:{}\nFeels Like:{}\nHumidity:{}\nWind Speed:{}".format(city_name,temp_max,feels_like,humidity,wind))
+    #         elif(response.status_code==201):
+    #             msg.body("Sorry!,I couldn't understand.")
+    #         else:
+    #             text="I could not retrieve the results at this time, sorry."
+    #             msg.body(text)
+    #     weather(word.title())
+    #     responded = True
     if 'cat' in incoming_msg:
         # return a cat pic
         msg.media('https://cataas.com/cat')
@@ -203,17 +197,17 @@ def bot():
         msg.body(txt)
         responded=True
 
-    if "top news" in incoming_msg or "current news" in incoming_msg:
-        url="http://newsapi.org/v2/top-headlines?country=in&apiKey=05c523b114d24ae38428e9462f06c3ff"
-        response = requests.request("GET", url)
-        news=response.json()
-        articles=news.get("articles")
-        for sources in articles:
-            #url_img=sources.get("urlToImage")
-            title=sources.get("title")
-            new_url=sources.get("url")
-        msg.body(title+"\n"+new_url)
-        responded=True
+    # if "top news" in incoming_msg or "current news" in incoming_msg:
+    #     url="http://newsapi.org/v2/top-headlines?country=in&apiKey=05c523b114d24ae38428e9462f06c3ff"
+    #     response = requests.request("GET", url)
+    #     news=response.json()
+    #     articles=news.get("articles")
+    #     for sources in articles:
+    #         #url_img=sources.get("urlToImage")
+    #         title=sources.get("title")
+    #         new_url=sources.get("url")
+    #     msg.body(title+"\n"+new_url)
+    #     responded=True
     if not responded:
         em=emoji.emojize(":zipper-mouth_face:")
         txt="Sorry, I have no idea what you're talking about {}\n\nType 'help me' to see what i can do.".format(em)
