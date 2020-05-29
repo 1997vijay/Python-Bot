@@ -7,14 +7,14 @@ from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 
 app = Flask(__name__)
-@app.route("/", methods=['POST'])
+@app.route("/", methods=['get'])
 def hello():
     return "Hello World!"
 
 @app.route('/bot', methods=['POST'])
 def bot():
-    quote=json.load(open("quotes.json")) #First loading the jason file into quote
-    data=json.load(open("data.json")) #First loading the jason file into data
+    quote=json.load(open("quotes.json",encoding="utf8")) 
+    data=json.load(open("data.json",,encoding="utf8"))
     cnv= ['Bye', 'See you later', 'Sayonara', "I'm also leaving", 'Goodbye', 'Farewell']
     hl=['greetings', 'hello', 'hi', 'howdy', 'I am here', 'I have arrived','Okaeri']
     incoming_msg = request.values.get('Body', '').lower()
@@ -24,14 +24,12 @@ def bot():
     if "hi" in incoming_msg or "hello" in incoming_msg or "hey" in incoming_msg or "hola" in incoming_msg:
         txt=random.choice(hl)
         em=emoji.emojize(":grinning_face_with_big_eyes:")
-       # txt="I can\n[1]Tell covid details of any country \n[2]Tell Weather Information of any city\n[3]Generate a random Quotes for you.\n[4]Be your English Dictionary\n[5]Give you the Pic of the day from Nasa\n[6]Search a photo for you {}".format(em)
         msg.body(txt+" {}".format(em))
         responded = True
 
     if "bye" in incoming_msg or "good bye" in incoming_msg or "byee" in incoming_msg:
         txt=random.choice(cnv)
         em=emoji.emojize("\N{slightly smiling face}")
-       # txt="I can\n[1]Tell covid details of any country \n[2]Tell Weather Information of any city\n[3]Generate a random Quotes for you.\n[4]Be your English Dictionary\n[5]Give you the Pic of the day from Nasa\n[6]Search a photo for you {}".format(em)
         msg.body(txt+" {}".format(em))
         responded = True
 
@@ -48,35 +46,35 @@ def bot():
         msg.body(rq)
         responded = True  
 
-    # if 'meaning' in incoming_msg or 'mean' in incoming_msg:
-    #     word=incoming_msg.split("meaning of")[1]
-    #     def translate(w):        
-    #         if w in data:
-    #             msg.body(w+"\n")
-    #             return data[w]
-    #         elif w.title() in data: # to handle the word related to capital or country
-    #             msg.body(w.title()+"\n")
-    #             return data[w.title()]
-    #         elif w.upper() in data: #in case user enters words like USA or NATO
-    #             msg.body(w.upper()+"\n")
-    #             return data[w.upper()]
-    #         elif len(get_close_matches(w,data.keys()))>0:
-    #             sm_word=get_close_matches(w,data.keys())[0]
-    #             msg.body(sm_word.title()+":\n")
-    #             return data[get_close_matches(w,data.keys())[0]]
-    #         else:
-    #             msg.body("No such word exits.Please double check it!!")
+    if 'meaning' in incoming_msg or 'mean' in incoming_msg:
+        word=incoming_msg.split("meaning of")[1]
+        def translate(w):        
+            if w in data:
+                msg.body(w+"\n")
+                return data[w]
+            elif w.title() in data: 
+                msg.body(w.title()+"\n")
+                return data[w.title()]
+            elif w.upper() in data:
+                msg.body(w.upper()+"\n")
+                return data[w.upper()]
+            elif len(get_close_matches(w,data.keys()))>0:
+                sm_word=get_close_matches(w,data.keys())[0]
+                msg.body(sm_word.title()+":\n")
+                return data[get_close_matches(w,data.keys())[0]]
+            else:
+                msg.body("No such word exits.Please double check it!!")
 
-    #     output=translate(word.lower()) #calling function because data set contain all the word in lower case
-    #     if(type(output)==list):
-    #         for items in output:
-    #             rq=items
-    #             msg.body("\n"+rq)
-    #             responded = True
-    #     else:
-    #         rq=output
-    #         msg.body("\n"+rq)
-    #         responded = True
+        output=translate(word.lower())
+        if(type(output)==list):
+            for items in output:
+                rq=items
+                msg.body("\n"+rq)
+                responded = True
+        else:
+            rq=output
+            msg.body("\n"+rq)
+            responded = True
         
     # if 'nasa' in incoming_msg:
     #     url="https://api.nasa.gov/planetary/apod?api_key=sbESYWcBiR1n0tggKJfi2nsewtZpcxkQe33NhZjk"
