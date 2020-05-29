@@ -74,7 +74,7 @@ def bot():
             rq=output
             msg.body("\n"+rq)
             responded = True 
-    if 'nasa' in incoming_msg:
+    if 'nasa' in incoming_msg or 'nasa pic' in incoming_msg:
         url="https://api.nasa.gov/planetary/apod?api_key=sbESYWcBiR1n0tggKJfi2nsewtZpcxkQe33NhZjk"
         response = requests.request("GET", url)
         nasa=response.json()
@@ -151,7 +151,7 @@ def bot():
         if(t>='12' and t<='17'):
             em_w=emoji.emojize("\N{grimacing face}")
             txt="Good AfterNoon,Time for the work!!"
-            time=x.strftime("%c {} {}").format(em_w)
+            time=x.strftime("%c {}").format(em_w,em)
             msg.body(time+"\n"+txt)
             responded = True
         elif(t>='17' and t<='23'):
