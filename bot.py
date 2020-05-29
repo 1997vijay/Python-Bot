@@ -38,7 +38,7 @@ def bot():
         txt="My creator is 'Vijay Kumar' {}".format(em)
         msg.body(txt)
         responded = True
-    if 'Quote' in incoming_msg or 'quotes' in incoming_msg:
+    if 'quote' in incoming_msg or 'quotes' in incoming_msg:
         qu=random.choice(quote)
         x = qu.get("quoteText")
         author=qu["quoteAuthor"]
@@ -144,29 +144,33 @@ def bot():
         msg.media('https://cataas.com/cat')
         responded = True
     if "current time" in incoming_msg or "What day" in incoming_msg or "date" in incoming_msg or "time" in incoming_msg:
-        em1=emoji.emojize("\N{milky way}")
-        em=emoji.emojize("\N{sleeping face}")
-        x = datetime.datetime.now()
-        t=x.strftime("%X").split(":")[0]
-        if(t>='12' and t<='17'):
+            url="https://api.ipgeolocation.io/timezone?apiKey=d5a55a31e39d4c0287c146f038d8440e&lat=18.59530683036207&long=73.72870325730564"
+            response = requests.request("GET", url)
+            current_time=response.json()
+            time_24=current_time["time_24"]
+            date_t=current_time["date_time_txt"]
+            t=time_24.split(":")[0]
+        if(t>='12' and t<='16'):
             em_w=emoji.emojize("\N{grimacing face}")
-            txt="Good AfterNoon,Time for the work!!"
-            time=x.strftime("%c {}").format(em_w,em)
-            msg.body(time+"\n"+txt)
+            txt="Good AfterNoon,Time for the work!!{}".format(em_w)
+            msg.body(date_t+"\n"+txt)
             responded = True
-        elif(t>='17' and t<='23'):
+        if(t>='16' and t<='21'):
+            em_w=emoji.emojize("\N{partying face}")
+            txt="It's time for fun!!{}".format(em_w)
+            msg.body(date_t+"\n"+txt)
+            responded = True
+        elif(t>='21' and t<='23'):
             em1=emoji.emojize("\N{milky way}")
             em=emoji.emojize("\N{sleeping face}")
             txt="Good Nigth,Time to sleep!!{}{}".format(em1,em)
-            time=x.strftime("%c")
-            msg.body(time+"\n"+txt)
+            msg.body(date_t+"\n"+txt)
             responded = True
         else:
             em1=emoji.emojize("\N{hot beverage}")
             em=emoji.emojize("\N{cooking}")
             txt="Good Morning!!{}{}".format(em1,em)
-            time=x.strftime("%c")
-            msg.body(time+"\n"+txt)
+            msg.body(date_t+"\n"+txt)
             responded = True
     if "fact" in incoming_msg or "random" in incoming_msg:
         url="https://uselessfacts.jsph.pl//random.json?language=en"
@@ -191,7 +195,7 @@ def bot():
         msg.body(title+"\n"+new_url)
         responded=True
     if "tutorial" in incoming_msg or "tut" in incoming_msg :
-        txt="[1] For a quote-> message should contain 'quote' or 'quotes'\n[2]For covid details->message should contain 'covid of 'country name'\n[3]For weather details->Message should contain 'weather of city,country'\n[4]For english English dictionary->Message should contain 'meaning of 'word'\n[5]For a random fact->Simply say 'random fact or fact'[6]To searcg any Photo-> simply type 'category photo' ex-'nature photo'\n[7]For NASA pic of the day->should contain 'nasa'\n[8]"
+        txt="[1] For a quote-> message should contain 'quote' or 'quotes'\n[2]For covid details->message should contain 'covid of 'country name'\n[3]For weather details->Message should contain 'weather of city,country'\n[4]For english English dictionary->Message should contain 'meaning of 'word'\n[5]For a random fact->Simply say 'random fact or fact'\n[6]To searcg any Photo-> simply type 'category photo' ex-'nature photo'\n[7]For NASA pic of the day->should contain 'nasa'\n[8]"
         msg.body(txt)
         responded=True
     if not responded:
