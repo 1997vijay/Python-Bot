@@ -22,6 +22,7 @@ def bot():
     incoming_msg = request.values.get('Body', '').lower()
     resp = MessagingResponse()
     msg = resp.message()
+    msg.body("Type 'help me' to start!!")
     responded = False
     if "hi" in incoming_msg or "hello" in incoming_msg or "hey" in incoming_msg or "hola" in incoming_msg:
         txt=random.choice(hl)
@@ -190,6 +191,8 @@ def bot():
             new_url=sources.get("url")
         msg.body(title+"\n"+new_url)
         responded=True
+    if "tutorial" in incoming_msg:
+        txt="[1] For a quote-> message should contain 'quote' or 'quotes'\n[2]For covid details->message should contain 'covid of 'country name'\n[3]For weather details->Message should contain 'weather of city,country'\n[4]For english English dictionary->Message should contain 'meaning of 'word'\n[5]For a random fact->Simply say 'random fact or fact'[6]To searcg any Photo-> simply type 'category photo' ex-'nature photo'\n[7]For NASA pic of the day->should contain 'nasa'\n[8]"
     if not responded:
         em=emoji.emojize(":zipper-mouth_face:")
         txt="Sorry, I have no idea what you're talking about {}\n\nType 'help me' to see what i can do.".format(em)
