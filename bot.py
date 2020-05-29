@@ -4,6 +4,7 @@ import emoji
 import datetime
 from difflib import get_close_matches
 from flask import Flask, request
+import requests
 from twilio.twiml.messaging_response import MessagingResponse
 
 app = Flask(__name__)
@@ -27,13 +28,11 @@ def bot():
         em=emoji.emojize(":grinning_face_with_big_eyes:")
         msg.body(txt+" {}".format(em))
         responded = True
-
     if "bye" in incoming_msg or "good bye" in incoming_msg or "byee" in incoming_msg:
         txt=random.choice(cnv)
         em=emoji.emojize("\N{slightly smiling face}")
         msg.body(txt+" {}".format(em))
         responded = True
-
     if "made you" in incoming_msg or "creator" in incoming_msg or "madw you" in incoming_msg :
         em=emoji.emojize("\N{smiling face with halo}")
         txt="My creator is 'Vijay Kumar' {}".format(em)
@@ -46,7 +45,6 @@ def bot():
         rq=x+"By-'{}'".format(author)
         msg.body(rq)
         responded = True  
-
     if 'meaning' in incoming_msg or 'mean' in incoming_msg:
         word=incoming_msg.split("meaning of")[1]
         def translate(w):        
@@ -75,8 +73,7 @@ def bot():
         else:
             rq=output
             msg.body("\n"+rq)
-            responded = True
-        
+            responded = True 
     if 'nasa' in incoming_msg:
         url="https://api.nasa.gov/planetary/apod?api_key=sbESYWcBiR1n0tggKJfi2nsewtZpcxkQe33NhZjk"
         response = requests.request("GET", url)
@@ -86,14 +83,12 @@ def bot():
         msg.media(img_url)
         msg.body(explanation)
         responded = True
-
     if 'photo' in incoming_msg:
         word=incoming_msg.split("photo")[0]
         url="https://source.unsplash.com/1600x900/?{}".format(word)
         print(url)
         msg.media(url)
         responded = True
-
     if 'covid details' in incoming_msg or 'Covid of' in incoming_msg:
         word=incoming_msg.split("covid details of ")[1]
         def covid(country):
@@ -119,7 +114,6 @@ def bot():
                 msg.body(text)
         covid(word.title())
         responded = True  
-
     if 'weather' in incoming_msg or 'weather of' in incoming_msg:
         word=incoming_msg.split("weather of ")[1]
         def weather(city):
@@ -149,7 +143,6 @@ def bot():
         # return a cat pic
         msg.media('https://cataas.com/cat')
         responded = True
-
     if "current time" in incoming_msg or "What day" in incoming_msg or "date" in incoming_msg or "time" in incoming_msg:
         em1=emoji.emojize("\N{milky way}")
         em=emoji.emojize("\N{sleeping face}")
@@ -175,7 +168,6 @@ def bot():
             time=x.strftime("%c")
             msg.body(time+"\n"+txt)
             responded = True
-
     if "fact" in incoming_msg or "random" in incoming_msg:
         url="https://uselessfacts.jsph.pl//random.json?language=en"
         response = requests.request("GET", url)
@@ -188,7 +180,6 @@ def bot():
         txt="I can \n\n[1] Give you the Covid Details\n[2] Give you Weather Details\n[3]Give you the  Random Quotes\n[4] Be your English dictionary\n[5] Can give you the Nasa pic of the day\n[6] Can search the photo for you\n[7] Can give you the random fact.\n[8] Can be your clock."
         msg.body(txt)
         responded=True
-
     if "top news" in incoming_msg or "current news" in incoming_msg:
         url="http://newsapi.org/v2/top-headlines?country=in&apiKey=05c523b114d24ae38428e9462f06c3ff"
         response = requests.request("GET", url)
