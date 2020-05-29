@@ -13,8 +13,8 @@ def hello():
 
 @app.route('/bot', methods=['POST'])
 def bot():
-    quote=json.load(open("quotes.json")) #First loading the jason file into "quote"
-    data=json.load(open("data.json")) #First loading the jason file into "data"
+    quote=json.load(open("quotes.json")) #First loading the jason file into quote
+    data=json.load(open("data.json")) #First loading the jason file into data
     cnv= ['Bye', 'See you later', 'Sayonara', "I'm also leaving", 'Goodbye', 'Farewell']
     hl=['greetings', 'hello', 'hi', 'howdy', 'I am here', 'I have arrived','Okaeri']
     incoming_msg = request.values.get('Body', '').lower()
