@@ -2,10 +2,8 @@ import json
 import random
 import emoji
 import datetime
-from datetime import datetime as dt
 from difflib import get_close_matches
 from flask import Flask, request
-import requests
 from twilio.twiml.messaging_response import MessagingResponse
 
 quote=json.load(open("quotes.json")) #First loading the jason file into "quote"
@@ -17,7 +15,7 @@ hl=['greetings', 'hello', 'hi', 'howdy', 'I am here', 'I have arrived','Okaeri']
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/", methods=['POST'])
 def hello():
     return "Hello World!"
 
@@ -153,49 +151,49 @@ def bot():
     #             msg.body(text)
     #     weather(word.title())
     #     responded = True
-    if 'cat' in incoming_msg:
-        # return a cat pic
-        msg.media('https://cataas.com/cat')
-        responded = True
+    # if 'cat' in incoming_msg:
+    #     # return a cat pic
+    #     msg.media('https://cataas.com/cat')
+    #     responded = True
 
-    if "current time" in incoming_msg or "What day" in incoming_msg or "date" in incoming_msg or "time" in incoming_msg:
-        em1=emoji.emojize("\N{milky way}")
-        em=emoji.emojize("\N{sleeping face}")
-        x = datetime.datetime.now()
-        t=x.strftime("%X").split(":")[0]
-        if(t>='12' and t<='17'):
-            em_w=emoji.emojize("\N{grimacing face}")
-            txt="Good AfterNoon,Time for the work!!"
-            time=x.strftime("%c {} {}").format(em_w)
-            msg.body(time+"\n"+txt)
-            responded = True
-        elif(t>='17' and t<='23'):
-            em1=emoji.emojize("\N{milky way}")
-            em=emoji.emojize("\N{sleeping face}")
-            txt="Good Nigth,Time to sleep!!{}{}".format(em1,em)
-            time=x.strftime("%c")
-            msg.body(time+"\n"+txt)
-            responded = True
-        else:
-            em1=emoji.emojize("\N{hot beverage}")
-            em=emoji.emojize("\N{cooking}")
-            txt="Good Morning!!{}{}".format(em1,em)
-            time=x.strftime("%c")
-            msg.body(time+"\n"+txt)
-            responded = True
+    # if "current time" in incoming_msg or "What day" in incoming_msg or "date" in incoming_msg or "time" in incoming_msg:
+    #     em1=emoji.emojize("\N{milky way}")
+    #     em=emoji.emojize("\N{sleeping face}")
+    #     x = datetime.datetime.now()
+    #     t=x.strftime("%X").split(":")[0]
+    #     if(t>='12' and t<='17'):
+    #         em_w=emoji.emojize("\N{grimacing face}")
+    #         txt="Good AfterNoon,Time for the work!!"
+    #         time=x.strftime("%c {} {}").format(em_w)
+    #         msg.body(time+"\n"+txt)
+    #         responded = True
+    #     elif(t>='17' and t<='23'):
+    #         em1=emoji.emojize("\N{milky way}")
+    #         em=emoji.emojize("\N{sleeping face}")
+    #         txt="Good Nigth,Time to sleep!!{}{}".format(em1,em)
+    #         time=x.strftime("%c")
+    #         msg.body(time+"\n"+txt)
+    #         responded = True
+    #     else:
+    #         em1=emoji.emojize("\N{hot beverage}")
+    #         em=emoji.emojize("\N{cooking}")
+    #         txt="Good Morning!!{}{}".format(em1,em)
+    #         time=x.strftime("%c")
+    #         msg.body(time+"\n"+txt)
+    #         responded = True
 
-    if "fact" in incoming_msg or "random" in incoming_msg:
-        url="https://uselessfacts.jsph.pl//random.json?language=en"
-        response = requests.request("GET", url)
-        fact=response.json()
-        txt=fact["text"]
-        msg.body(txt)
-        responded=True
+    # if "fact" in incoming_msg or "random" in incoming_msg:
+    #     url="https://uselessfacts.jsph.pl//random.json?language=en"
+    #     response = requests.request("GET", url)
+    #     fact=response.json()
+    #     txt=fact["text"]
+    #     msg.body(txt)
+    #     responded=True
 
-    if "help me" in incoming_msg:
-        txt="I can \n\n[1] Give you the Covid Details\n[2] Give you Weather Details\n[3]Give you the  Random Quotes\n[4] Be your English dictionary\n[5] Can give you the Nasa pic of the day\n[6] Can search the photo for you\n[7] Can give you the random fact.\n[8] Can be your clock."
-        msg.body(txt)
-        responded=True
+    # if "help me" in incoming_msg:
+    #     txt="I can \n\n[1] Give you the Covid Details\n[2] Give you Weather Details\n[3]Give you the  Random Quotes\n[4] Be your English dictionary\n[5] Can give you the Nasa pic of the day\n[6] Can search the photo for you\n[7] Can give you the random fact.\n[8] Can be your clock."
+    #     msg.body(txt)
+    #     responded=True
 
     # if "top news" in incoming_msg or "current news" in incoming_msg:
     #     url="http://newsapi.org/v2/top-headlines?country=in&apiKey=05c523b114d24ae38428e9462f06c3ff"
