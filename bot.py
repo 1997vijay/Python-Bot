@@ -62,7 +62,6 @@ def bot():
                 return data[get_close_matches(w,data.keys())[0]]
             else:
                 msg.body("No such word exits.Please double check it!!")
-
         output=translate(word.lower())
         if(type(output)==list):
             for items in output:
@@ -149,12 +148,12 @@ def bot():
         time_24=current_time["time_24"]
         t=time_24.split(":")[0]
         date_t=current_time["date_time_txt"]
-        if(t>='12' and t<='16'):
+        if(t>'12' and t<='16'):
             em_w=emoji.emojize("\N{grimacing face}")
             txt="Good AfterNoon,Time for the work!!{}".format(em_w)
             msg.body(date_t+"\n"+txt)
             responded = True
-        if(t>='16' and t<='21'):
+        elif(t>='16' and t<='21'):
             em_w=emoji.emojize("\N{video game}")
             txt="It's time for fun!!{}".format(em_w)
             msg.body(date_t+"\n"+txt)
