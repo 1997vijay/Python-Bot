@@ -13,7 +13,7 @@ Created a simple information giving what's app bot that can give you the informa
 
 #What did I use to make this bot.
 
-For the Quote and English word ,I simply used a json file and from that json file simply fetching the data and paasing to the server.
+For the Quote and English word ,I simply used a json file and from that json file simply fetching the data and passing to the server.
 For the rest of the features ,I used REST API(free version only) and passing the information to your what's app I used Twilio.
 
 #What I learned most from this bot.
